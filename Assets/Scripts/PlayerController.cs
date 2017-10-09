@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Collider[] overlaps = Physics.OverlapSphere(ground_check.position, 0.2f, ground_mask);
+        Collider[] overlaps = Physics.OverlapSphere(ground_check.position, 0.3f, ground_mask);
         if (overlaps.Length > 0)
         {
             return true;
