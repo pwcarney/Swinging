@@ -8,9 +8,13 @@ public class PlayerController : MonoBehaviour
     public bool attached;
 
     public float speed;
+    private bool jumping = false;
+    private bool wall_delay = false;
     public float jump_power;
     private Transform ground_check;
     public LayerMask ground_mask;
+    [HideInInspector]
+    public bool IsTouchingWall = false;
     private Rigidbody body;
 
     private void Start()
@@ -49,6 +53,12 @@ public class PlayerController : MonoBehaviour
         {
             body.AddForce(new Vector3(0, jump_power, 0));
         }
+        else if (IsTouchingWall && Input.GetButton("Jump") && !wall_delay)
+        {
+            wall_delay = true;
+            Invoke("DelayWallJump", 0.25f);
+            body.AddForce(new Vector3(0, jump_power, 0));
+        }
 
         float moveVertical = Input.GetAxisRaw("Vertical");
         Vector3 forward_movement = moveVertical * Camera.main.transform.forward;
@@ -62,10 +72,16 @@ public class PlayerController : MonoBehaviour
         body.AddForce(movement * speed);
     }
 
+    private void DelayWallJump()
+    {
+        wall_delay = false;
+    }
+
     private void SetSpring()
     {
         SpringJoint joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
+        joint.enableCollision = true;
         joint.spring = 2;
     }
 
