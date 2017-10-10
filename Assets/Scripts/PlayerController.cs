@@ -59,8 +59,8 @@ public class PlayerController : MonoBehaviour
         else if (IsTouchingWall && Input.GetButton("Jump") && !wall_delay)
         {
             wall_delay = true;
-            Invoke("DelayWallJump", 0.25f);
-            body.AddForce(new Vector3(0, jump_power, 0));
+            Invoke("DelayWallJump", 0.1f);
+            body.AddForce(new Vector3(0, jump_power * 1f, 0));
             double_jump_ready = true;
         }
         else if (double_jump_ready && Input.GetButtonDown("Jump"))
@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
             Destroy(GetComponent<SpringJoint>());
 
             body.velocity = new Vector3(0f, 0f, 0f);
-            body.AddForce(new Vector3(0, jump_power, 0));
+            body.AddForce(new Vector3(0, jump_power * 3, 0));
             double_jump_ready = false;
         }
 
@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         SpringJoint joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
         joint.enableCollision = true;
-        joint.spring = 2;
+        joint.spring = 2f;
     }
 
     private bool IsGrounded()
