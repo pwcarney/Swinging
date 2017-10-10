@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attached: 0
-  speed: 10
+  speed: 9
   jump_power: 300
   ground_mask:
     serializedVersion: 2
