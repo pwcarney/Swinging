@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
 
     public float speed;
     private bool jumping = false;
+    private bool double_jump_ready = true;
     private bool wall_delay = false;
     public float jump_power;
     private Transform ground_check;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
                 attached = true;
                 if (GetComponent<SpringJoint>() == null)
                 {
+                    double_jump_ready = true;
                     SetSpring();
                 }
                 GetComponent<SpringJoint>().connectedAnchor = hit.point;
@@ -52,12 +54,23 @@ public class PlayerController : MonoBehaviour
         if (IsGrounded() && Input.GetButtonDown("Jump"))
         {
             body.AddForce(new Vector3(0, jump_power, 0));
+            double_jump_ready = true;
         }
         else if (IsTouchingWall && Input.GetButton("Jump") && !wall_delay)
         {
             wall_delay = true;
             Invoke("DelayWallJump", 0.25f);
             body.AddForce(new Vector3(0, jump_power, 0));
+            double_jump_ready = true;
+        }
+        else if (double_jump_ready && Input.GetButtonDown("Jump"))
+        {
+            attached = false;
+            Destroy(GetComponent<SpringJoint>());
+
+            body.velocity = new Vector3(0f, 0f, 0f);
+            body.AddForce(new Vector3(0, jump_power, 0));
+            double_jump_ready = false;
         }
 
         float moveVertical = Input.GetAxisRaw("Vertical");
