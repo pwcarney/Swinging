@@ -18,5 +18,9 @@ public class WallCheck : MonoBehaviour
         {
             GetComponentInParent<PlayerController>().IsTouchingWall = false;
         }
+        else if (other.tag == "Kill")
+        {
+            GetComponentInParent<PlayerController>().ResetLevel();
+        }
     }
 }

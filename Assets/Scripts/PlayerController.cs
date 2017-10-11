@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public bool attached;
 
+    Vector3 starting_position;
+
     public float speed;
     private bool jumping = false;
     private bool double_jump_ready = true;
@@ -22,6 +24,8 @@ public class PlayerController : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
         ground_check = transform.GetChild(0).transform;
+
+        starting_position = transform.position;
     }
 
     private void Update ()
@@ -95,7 +99,7 @@ public class PlayerController : MonoBehaviour
         SpringJoint joint = gameObject.AddComponent<SpringJoint>();
         joint.autoConfigureConnectedAnchor = false;
         joint.enableCollision = true;
-        joint.spring = 2;
+        joint.spring = 1.5f;
     }
 
     private bool IsGrounded()
@@ -109,5 +113,14 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void ResetLevel()
+    {
+        transform.position = starting_position;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        attached = false;
+        Destroy(GetComponent<SpringJoint>());
     }
 }
