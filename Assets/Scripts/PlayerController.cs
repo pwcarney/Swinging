@@ -73,6 +73,16 @@ public class PlayerController : MonoBehaviour
         movement.Normalize();
 
         body.AddForce(movement * speed);
+
+        // Determine wind SFX volume
+        if (transform.position.y > 0.6f)
+        {
+            GetComponent<AudioSource>().volume = Mathf.Clamp01(body.velocity.magnitude / 200f);
+        }
+        else
+        {
+            GetComponent<AudioSource>().volume = 0;
+        }
     }
 
     private void SetSpring()
