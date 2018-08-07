@@ -89,11 +89,6 @@ public class PlayerController : MonoBehaviour
         body.AddForce(movement * speed);
     }
 
-    private void DelayWallJump()
-    {
-        wall_delay = false;
-    }
-
     private void SetSpring()
     {
         SpringJoint joint = gameObject.AddComponent<SpringJoint>();
@@ -113,14 +108,5 @@ public class PlayerController : MonoBehaviour
         {
             return false;
         }
-    }
-
-    public void ResetLevel()
-    {
-        transform.position = starting_position;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-        attached = false;
-        Destroy(GetComponent<SpringJoint>());
     }
 }
